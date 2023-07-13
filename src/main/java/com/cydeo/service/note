@@ -1,0 +1,24 @@
+Once all the Controllers and DTOs are ready
+as a back end developer you should create services
+to get data from the database through the repositories
+Business logic must be written abstract and be implemented in the
+services.
+Controller requests certain data, to get the data go to the database
+ fetch it and then return it. The repository level gives
+ anything you want from the database. Call the required methods from
+ repository. To call the methods with the queries that fetch the data
+ you need to inject the repository first.
+ Controller requests DTO object not entity objects therefore change the entity
+  objects into DTO using mappers such as ModelMappers,etc
+ Add the mapper library into your pom.xml
+ If you are adding a dependency, it means you are going to use an object
+ from it. When you are creating an object spring needs to control and manage
+ it by putting certain annotations on the class. Therefore, add a method
+ that returns the model mapper annotated with @Bean (b/c it
+ is a 3rd party library) in the runner class or can put it in a
+ configuration class then pass its name as a parameter in the runner class.
+ What ever data that comes from the database is stored in the entity objects,
+ but controllers need DTO objects to display the data into the UI.
+ You need to have a mapper package that  occupies the classes that
+ deal with converting entities into DTOs.
+
