@@ -1,0 +1,68 @@
+version: 2 #the version of CircleCi you wish to use
+jobs:
+  build:
+    docker:
+      # specify the image from which jdk version to create it: circleci/openjdk-11 is faster
+      - image: circleci/openjdk:11-jdk
+    working_directory: /tmp/workspace
+    steps:
+      - #helps to read the code from GitHub
+      - checkout
+      # mkdr = create folder, -p = use this folder as a parent
+      - run: mkdir -p /tmp/workspace
+      # Caching reduces repetitive steps or tasks if the task is the same: Download and cache dependencies
+      - restore_cache:
+          keys:
+            #defining where to store the cache, v1-dependencies is the version, checksum = restore new changes
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+      # runs unit tests using the mvn clean install command
+      - run: mvn clean install -DskipTests
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths: .
+  #when using ECR and RDS, this to create an image and push it to the ECR
+  docker-image-and-publish:
+    machine: true
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run: ls -a /tmp/workspace
+      - run:
+          name: Create Docker image and push to ECR
+          #the 4 command from ECR push commands
+          command: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 963334283088.dkr.ecr.us-east-1.amazonaws.com && docker build -t ticketingapp /tmp/workspace && docker tag ticketingapp:latest 963334283088.dkr.ecr.us-east-1.amazonaws.com/ticketingapp:latest && docker push 963334283088.dkr.ecr.us-east-1.amazonaws.com/ticketingapp:latest
+  deploy-job:
+    docker:
+      #specify the version you desire here
+      - image: circleci/node:10.0.0
+    steps:
+      - run:
+          name: Execute Deployment Script
+          #ssh -o "StrictHostKeyChecking=no" means use this command instead of pem file, get it from CircleCi
+          #ec2-user@ec2-72-31-87-77.us-east-1.compute.amazonaws.com means connect to the EC2 machine using this command
+          command:
+            ssh -o "StrictHostKeyChecking=no" ec2-user@ec2-72-31-87-77.us-east-1.compute.amazonaws.com <<'ENDSSH'
+            /bin/bash bin/deploy_image.sh
+            docker ps
+#workflow defines the order of execution one after the other
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      #calling the build job
+      - build
+      - docker-image-and-publish:
+          #ordering, 1st the build must be done then
+          requires:
+            - build
+      #calling the deploy-job job
+      - deploy-job:
+          #ordering to run one after the other
+          requires:
+            - docker-image-and-publish

@@ -16,7 +16,7 @@ services:
       - initdb:/var/lib/postgres/data
   ticketing:
     build: .
-    container_name: ticketingapp
+    container_name: ticketingimdep
     ports:
       - "8080:8080"
     depends_on:
