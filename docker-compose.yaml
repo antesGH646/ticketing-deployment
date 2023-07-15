@@ -1,8 +1,8 @@
 version: "3.7"
 services:
-  mypostgres:
+  mypostgres2:
     image: postgres
-    container_name: mypostgres
+    container_name: mypostgres2
     ports:
       - "5432:5432"
     restart: always
@@ -16,11 +16,11 @@ services:
       - initdb:/var/lib/postgres/data
   ticketing:
     build: .
-    container_name: ticketingimdep
+    container_name: ticketingcondep
     ports:
       - "8080:8080"
     depends_on:
-      - mypostgres
+      - mypostgres2
     networks:
       - webnet
 volumes:
