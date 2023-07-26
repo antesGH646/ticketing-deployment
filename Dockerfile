@@ -7,7 +7,7 @@
 ##will get jar file and copy to image
 #COPY ./target/Spring-24-docker-0.0.1-SNAPSHOT.jar  ./app.jar
 #
-##willprovideexacutableapplicationwhencontainerstartstherun
+##will provide exacutable application when container starts the run
 #ENTRYPOINT ["java","-jar", "app.jar"]
 
 #FROM  openjdk:11
@@ -16,7 +16,7 @@
 #EXPOSE 8080
 #ENTRYPOINT ["java","-jar","Spring-21-Docker-0.0.1-SNAPSHOT.jar"]
 
-#Baseimage /it has to be in any dockerfile
+##Baseimage /it has to be in any dockerfile
 #FROM openjdk:11-jdk
 ##copy the whole jar file inside a user directory named app
 #COPY ./target/Spring-24-docker-0.0.1-SNAPSHOT.jar  /usr/app/
