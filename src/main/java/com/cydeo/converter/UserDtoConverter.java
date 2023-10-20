@@ -8,8 +8,10 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 /**
- * Instead of getting Java object you will get a String from the UI user entry
- * You need to convert this string into UserDTO object
+ * IDs are extracted as string formats from the database,
+ * therefore, they are converted into the required data type
+ * in order to use them in the DTOs. To do so implement the
+ * Converter interface to override the convert() method.
  */
 @Component
 @ConfigurationPropertiesBinding

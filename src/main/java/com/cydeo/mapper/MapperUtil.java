@@ -4,11 +4,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
-
 /**
- * This is a generic method for all mappers
- * To inject something two beans are needed and must add
- * the @Component annotation
+ * In this MapperUtil class a generic class converting entities into DTO and vice-versa.
+ * ModelMapper is used to convert entities into DTOs and vice-versa.
+ * Data that come from the database might have extra fields/columns
+ * such as Inserted-Date-Time, Updated-Date-Time, etc. and we do not
+ * want to display these extra fields/data in the UI. That is why we have two separate folders
+ * To inject this class object add the @Component annotation
+ * you may create the ModelMapper bean in the runner class
  */
 @Component
 public class MapperUtil {
