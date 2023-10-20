@@ -69,7 +69,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * This method an assigned task from the UI into the db
+     * This method catches & saves an assigned task from the UI into the db
      * First convert the UI fetched data(dto objects) into entity object
      * Second save it into the database through the repository
      * Third set the task status to open, and to current date
@@ -89,7 +89,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * This make update a task in the db. Since there is no status in the form
+     * This method updates a task in the db. Since there is no status in the form
      * assign it to a new status. The task may get a status from somewhere
      * therefore check it if is null or not before you assign it.
      * First you need to convert the updated data into entity object
@@ -113,7 +113,6 @@ public class TaskServiceImpl implements TaskService {
     /**
      * This method soft deletes a task
      * First find the task from the db
-     *
      * @param id Long
      */
     @Override
