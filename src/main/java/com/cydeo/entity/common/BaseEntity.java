@@ -1,5 +1,6 @@
-package com.cydeo.entity;
+package com.cydeo.entity.common;
 
+import com.cydeo.service.impl.BaseEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

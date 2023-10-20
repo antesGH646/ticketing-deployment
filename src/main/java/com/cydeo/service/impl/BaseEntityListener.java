@@ -1,9 +1,11 @@
-package com.cydeo.entity;
+package com.cydeo.service.impl;
 
+import com.cydeo.entity.common.BaseEntity;
 import com.cydeo.entity.common.UserPrincipal;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -13,10 +15,11 @@ import java.time.LocalDateTime;
  * Base entities do not extend from other classes
  * for this reason the class is created to extend from
  * AuditingEntityListener.
- * This class is designed to capture the user id of the role who making
- * the changes/updates in the UI. It listens then captures when the ids in the base entity are used.
+ * This class is designed to capture the user id of the role who is making
+ * the changes/updates in the UI. It listens then captures when the base entity id is used.
  * Therefore, the BaseEntity has to be annotated with the @EntityListeners(BaseEntityListener.class)
  */
+@Component
 public class BaseEntityListener extends AuditingEntityListener {
     /**
      * For every action in the database this method will be executed to

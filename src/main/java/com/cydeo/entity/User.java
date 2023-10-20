@@ -1,5 +1,6 @@
 package com.cydeo.entity;
 
+import com.cydeo.entity.common.BaseEntity;
 import com.cydeo.enums.Gender;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
